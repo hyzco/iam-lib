@@ -1,0 +1,15 @@
+{
+  "name": "iam-lib",
+  "version": "1.0.0",
+  "description": "Generic iam library for authentication and authorization for TheyCloud.",
+  "author": "Hasan Ali Yuzgec",
+  "license": "ISC",
+  "type": "module",
+  "main": "src/index.js",
+  "keywords": [
+    "iam",
+    "authentication",
+    "authorization"
+  ],
+  "types": "./index.d.ts"
+}

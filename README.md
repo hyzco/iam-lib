@@ -157,4 +157,10 @@ iam-lib/
 
 ## 📜 License
 
-MIT
+Creative Commons Attribution 4.0 International (CC BY 4.0)
+
+## 📣 Attribution
+
+If you use this library, please credit:
+
+**TheyCloud IAM** by [https://github.com/hyzco]

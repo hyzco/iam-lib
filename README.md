@@ -46,13 +46,13 @@ npm link iam-lib
 ```js
 import { createIamHandlers } from 'iam-lib';
 import RedisClient from '.../RedisClient.class.js';
-import Logger from '.../Logger.js';
-import DatabaseConnection from '.../database.connection.class.js';
+import Logger from '.../Logger.js'; // your own logger or use console
+import DatabaseConnection from '.../database.connection.class.js'; //your own database class
 
 const iam = createIamHandlers({
-  db: DatabaseConnection.getConnection().getDbInstance(),
+  db: DatabaseConnection.getConnection().getDbInstance(), //knex instance
   redis: new RedisClient(),
-  logger: Logger,
+  logger: Logger, // or just 'console'
   roles: ['user', 'admin', 'support']
 });
 ```

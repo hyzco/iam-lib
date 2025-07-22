@@ -6,11 +6,12 @@ import meHandler from './handlers/me.js';
 import verifyAccessToken from './middleware/verifyAccessToken.js';
 import requireRole from './middleware/requireRole.js';
 import { signAccessToken, signRefreshToken, verifyRefreshToken } from './utils/jwt.js';
+import createProfileHandlers from './profile/index.js';
 
 /**
  * @returns {import('iam-lib').IamHandlers}
  */
-export function createIamHandlers({ db, redis, logger = console, roles = [], rbacMiddleware }) {
+export function createIamHandlers({ db, redis, logger = console, roles = [], rbacMiddleware, userRepo }) {
   return {
     login: loginHandler({ db, signAccessToken, signRefreshToken, logger }),
     register: registerHandler({ db, signAccessToken, signRefreshToken, logger }),
@@ -18,6 +19,13 @@ export function createIamHandlers({ db, redis, logger = console, roles = [], rba
     logout: logoutHandler({ verifyRefreshToken, redis, logger }),
     me: meHandler({ db }),
     verifyAccessToken,
-    requireRole: rbacMiddleware || requireRole(roles)
+    requireRole: rbacMiddleware || requireRole(roles),
+    profile: createProfileHandlers({
+      db,
+      getUserById: userRepo.getById,
+      updateUser: userRepo.update,
+      deleteUser: userRepo.delete,
+      logger
+    }),
   };
 }

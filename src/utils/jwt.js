@@ -58,7 +58,8 @@ export function signRefreshToken(userId) {
  */
 export function verifyAccessToken(token) {
   return new Promise((resolve, reject) => {
-    jwt.verify(token, process.env.REFRESH_TOKEN_SECRET, (err, payload) => {
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, payload) => {
+      console.log("==========================", err)
       if (err) {
         const message =
           err.name === 'JsonWebTokenError' ? 'Unauthorized' : err.message;
@@ -68,7 +69,11 @@ export function verifyAccessToken(token) {
     });
   });
 }
-
+  // jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, payload) => {
+  //       if (err) return next(createError.Unauthorized());
+  //       req.payload = payload;
+  //       next();
+  //   });
 /**
  * Verify a refresh token and return the user ID.
  * @param {string} token

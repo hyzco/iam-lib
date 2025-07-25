@@ -99,6 +99,13 @@ export default function AuthRoute(iam) {
     res.send('Welcome admin!');
   });
 
+    //Profile
+  router.get("/:id", iam.accessTokenMiddleware, iam.profile.getProfile);
+  router.get("/", iam.accessTokenMiddleware, iam.profile.getProfile);
+  router.put("/", iam.accessTokenMiddleware, iam.profile.updateProfile);
+  router.delete("/", iam.accessTokenMiddleware, iam.profile.deleteProfile);
+
+
   return router;
 }
 ```
@@ -295,7 +302,6 @@ iam-lib/
 
 - ⏳ Session-aware token revocation
 - 🧩 OAuth2 support
-- 📈 Rate limiting middleware
 - 🎛 Admin control panel integration
 
 ---

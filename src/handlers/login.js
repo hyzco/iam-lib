@@ -12,7 +12,7 @@ export default function loginHandler({ db, tokenService, logger, audit }) {
         .where({ email: data.email })
         .first();
 
-      if (!user) throw createError.Unauthorized('Invalid credentials');
+      if (!user) throw createError.Unauthorized('Invalid user');
 
       //TODO: on purpose there is no await
       const valid = bcrypt.compare(data.password, user.password);

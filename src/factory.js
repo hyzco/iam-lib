@@ -9,6 +9,7 @@ import requireRole from './middleware/requireRole.js';
 import createRateLimiter from './middleware/rateLimiter.js'
 import createProfileHandlers from './profile/index.js';
 import auditLogger from './events/auditLogger.js';
+import changePwHandler from './handlers/changePw.js';
 
 
 /**
@@ -57,7 +58,7 @@ export function createIamHandlers({
   overrides = {}
 }) {
   const audit = auditLogger({ logger });
-  const rateLimiter = createRateLimiter({ windowMs: 60000, max: 10 });
+  const rateLimiter = createRateLimiter({ windowMs: 60000, max: 60 });
 
   const { key, algorithm } = tokenService.getArgs();
   const verifyAccessToken = createAccessTokenVerifier({ key, algorithm });
@@ -76,7 +77,8 @@ export function createIamHandlers({
     login: [rateLimiter, loginHandler({ db, tokenService, logger, audit })],
     register: [rateLimiter, registerHandler({ db, tokenService, logger, audit })],
     logout: [rateLimiter, logoutHandler({ redis, tokenService, logger })],
-    refreshToken: [rateLimiter, refreshTokenHandler({ tokenService })]
+    refreshToken: [rateLimiter, refreshTokenHandler({ tokenService })],
+    changePw: [rateLimiter, changePwHandler({ db, userRepo, logger, audit })],
   }
 
 
@@ -85,6 +87,7 @@ export function createIamHandlers({
     login: wrap(overrides.login, fallbacks.login),
     register: wrap(overrides.register, fallbacks.register),
     logout: wrap(overrides.logout, fallbacks.logout),
+    changePw: wrap(overrides.changePw, fallbacks.changePw),
     refreshToken: wrap(overrides.refreshToken, fallbacks.refreshToken),
     requireRole: rbacMiddleware || requireRoleMiddleware,
     profile: createProfileHandlers({
@@ -98,6 +101,7 @@ export function createIamHandlers({
     accessTokenMiddleware: accessToken, // for route protection
     issueServiceToken,
     verifyServiceToken,
+    rateLimiter
   };
 
 }

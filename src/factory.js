@@ -86,7 +86,7 @@ export function createIamHandlers({
     register: wrap(overrides.register, fallbacks.register),
     logout: wrap(overrides.logout, fallbacks.logout),
     refreshToken: wrap(overrides.refreshToken, fallbacks.refreshToken),
-    requireRole: requireRoleMiddleware,
+    requireRole: rbacMiddleware || requireRoleMiddleware,
     profile: createProfileHandlers({
       db,
       getUserById: userRepo.getById,

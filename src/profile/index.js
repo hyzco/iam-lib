@@ -45,6 +45,6 @@ export default function createProfileHandlers({
                 logger.error("deleteProfile error:", err);
                 next(err.message);
             }
-        },
+        }
     };
 }

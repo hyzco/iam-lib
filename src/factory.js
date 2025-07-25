@@ -62,6 +62,7 @@ export function createIamHandlers({
   const { key, algorithm } = tokenService.getArgs();
   const verifyAccessToken = createAccessTokenVerifier({ key, algorithm });
   const accessToken = accessTokenMiddleware({ key, algorithm });
+  const requireRoleMiddleware = requireRole({ roles, getRole });
 
   const wrap = (override, fallback) => {
     if (Array.isArray(override)) return override;
@@ -85,7 +86,7 @@ export function createIamHandlers({
     register: wrap(overrides.register, fallbacks.register),
     logout: wrap(overrides.logout, fallbacks.logout),
     refreshToken: wrap(overrides.refreshToken, fallbacks.refreshToken),
-    requireRole: rbacMiddleware || requireRole({ roles, getRole }),
+    requireRole: requireRoleMiddleware,
     profile: createProfileHandlers({
       db,
       getUserById: userRepo.getById,

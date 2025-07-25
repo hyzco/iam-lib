@@ -2,9 +2,6 @@ import createError from 'http-errors';
 
 /**
  * Returns a role-based middleware
- * @param {Object} options
- * @param {string[]} options.roles - Ordered role list
- * @param {(userId: string) => Promise<string>} options.getRole - Async function to get user role
  * @returns {(requiredRole: string) => Middleware}
  */
 export default function requireRole({ roles, getRole }) {
@@ -15,6 +12,7 @@ export default function requireRole({ roles, getRole }) {
         if (!userId) return next(createError.Forbidden());
 
         const userRole = await getRole(userId);
+        if (userRole === null) return (next(createError.NotFound("User not found.")))
         if (!userRole) return next(createError.Forbidden('No role assigned'));
 
         const userIndex = roles.indexOf(userRole);

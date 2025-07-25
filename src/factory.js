@@ -8,6 +8,7 @@ import { accessTokenMiddleware, createAccessTokenVerifier } from './middleware/v
 import requireRole from './middleware/requireRole.js';
 import createRateLimiter from './middleware/rateLimiter.js'
 import createProfileHandlers from './profile/index.js';
+import auditLogger from './events/auditLogger.js';
 
 
 /**

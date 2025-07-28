@@ -11,11 +11,11 @@ import createError from 'http-errors';
 export function accessTokenMiddleware({ key, algorithm = 'RS256' }) {
   return function (req, res, next) {
     const authHeader = req.headers['authorization'];
-    // const token = authHeader?.startsWith('Bearer ') ? authHeader.slice(7) : authHeader;
+    const token = authHeader?.startsWith('Bearer ') ? authHeader.slice(7) : authHeader;
 
-    if (!authHeader) return next(createError.Unauthorized());
+    if (!token) return next(createError.Unauthorized());
 
-    jwt.verify(authHeader, key, { algorithms: [algorithm] }, (err, payload) => {
+    jwt.verify(token, key, { algorithms: [algorithm] }, (err, payload) => {
       if (err) return next(createError.Unauthorized());
       req.payload = payload;
       next();

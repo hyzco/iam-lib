@@ -101,7 +101,8 @@ export function createIamHandlers({
     accessTokenMiddleware: accessToken, // for route protection
     issueServiceToken,
     verifyServiceToken,
-    rateLimiter
+    rateLimiter,
+    tokenService
   };
 
 }

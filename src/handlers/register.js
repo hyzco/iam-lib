@@ -20,8 +20,7 @@ export default function registerHandler({ db, tokenService, logger, audit }) {
                     ...data,
                     password: hashed,
                     role: 'user',
-                })
-                .returning('id');
+                });
 
             const accessToken = await tokenService.signAccessToken(id);
             const refreshToken = await tokenService.signRefreshToken(id);

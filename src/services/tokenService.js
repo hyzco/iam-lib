@@ -6,8 +6,8 @@ export default function createTokenService({
   publicKey,
   accessSecret,
   refreshSecret,
-  accessExpiresIn = '15m',
-  refreshExpiresIn = '7d',
+  accessExpiresIn = process.env.ACCESS_TOKEN_LIFE || '30m',
+  refreshExpiresIn = process.env.REFRESH_TOKEN_LIFE || '7d',
 }) {
   const accessKey = algorithm === 'RS256' ? privateKey : accessSecret;
   const refreshKey = algorithm === 'RS256' ? privateKey : refreshSecret;

@@ -37,6 +37,20 @@ tasks:
         NEW_VERSION=$(node -p "require('./package.json').version")
         echo "✅ iam-lib version updated: $CURRENT_VERSION → $NEW_VERSION"
 
+  revert-version:
+    desc: "Revert iam-lib version to previous (before last bump)"
+    cmds:
+      - |
+        echo "🔍 Reading current version..."
+        cd ../iam-lib
+        CURRENT_VERSION=$(node -p "require('./package.json').version")
+        echo "Current version: $CURRENT_VERSION"
+
+        echo "🚀 Reverting to previous version..."
+        git checkout HEAD -- package.json
+        NEW_VERSION=$(node -p "require('./package.json').version")
+        echo "✅ iam-lib version reverted: $CURRENT_VERSION → $NEW_VERSION"
+
   publish-package:
     desc: "Publish iam-lib to npm registry"
     cmds:

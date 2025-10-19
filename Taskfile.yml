@@ -20,6 +20,11 @@ tasks:
     cmds:
       - pnpm install
 
+  build:
+    desc: "Build the project"
+    cmds:
+      - pnpm build
+
   bump-version:
     desc: "Bump iam-lib version (patch, minor, or major)"
     vars:

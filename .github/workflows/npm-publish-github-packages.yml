@@ -6,9 +6,8 @@ name: Node.js Package
 on:
   release:
     types: [created]
-    push:
-      branches:
-        - main
+  pull_request:
+    types: [opened]
 
 jobs:
   build:
@@ -18,8 +17,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - run: npm ci
-      - run: npm test
+      - run: npm install -g @go-task/cli
+      - run: npm install -g pnpm
+      - run: tasks install
+      - run: tasks build
 
   publish-gpr:
     needs: build

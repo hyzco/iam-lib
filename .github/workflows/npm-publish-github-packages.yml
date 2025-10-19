@@ -17,10 +17,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - run: npm install -g @go-task/cli
       - run: npm install -g pnpm
-      - run: npx @go-task/cli install
-      - run: npx @go-task/cli build
+      - run: npm install -g @go-task/cli
+      - run: tasks install
+      - run: tasks lint
+      - run: tasks format
+      - run: tasks build
 
   publish-gpr:
     needs: build
@@ -34,6 +36,7 @@ jobs:
         with:
           node-version: 20
           registry-url: https://npm.pkg.github.com/
+      - run: npm install -g pnpm
       - run: npm install -g @go-task/cli
       - run: task publish
         env:

@@ -3,3 +3,5 @@ import createTokenService from "./services/tokenService.js";
 export { createTokenService };
 
 export { accessTokenMiddleware, createAccessTokenVerifier } from "./middleware/verifyAccessToken.js"
+
+console.log("IAM Library loaded.");

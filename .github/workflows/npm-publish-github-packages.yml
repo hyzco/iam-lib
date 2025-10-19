@@ -19,8 +19,8 @@ jobs:
           node-version: 20
       - run: npm install -g @go-task/cli
       - run: npm install -g pnpm
-      - run: tasks install
-      - run: tasks build
+      - run: npx @go-task/cli install
+      - run: npx @go-task/cli build
 
   publish-gpr:
     needs: build

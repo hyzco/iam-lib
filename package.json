@@ -1,15 +1,31 @@
 {
-  "name": "iam-lib",
-  "version": "1.0.0",
+  "name": "@hyzco/iam-lib",
+  "version": "0.0.6",
   "description": "Generic iam library for authentication and authorization for TheyCloud.",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hyzco/iam-lib.git"
+  },
   "author": "Hasan Ali Yuzgec",
   "license": "ISC",
   "type": "module",
-  "main": "src/index.js",
+  "main": "dist/esm/index.js",
+  "scripts": {
+    "build": "rm -rf dist && mkdir -p dist/esm && cp -R src/* dist/esm/ || true",
+    "prepare": "pnpm run build",
+    "prepublishOnly": "pnpm run build"
+  },
   "keywords": [
     "iam",
     "authentication",
     "authorization"
   ],
-  "types": "./index.d.ts"
+  "types": "./index.d.ts",
+  "files": [
+    "dist",
+    "index.d.ts"
+  ]
 }

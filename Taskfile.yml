@@ -1,0 +1,55 @@
+version: "3"
+
+vars:
+  GREETING: Hello, World!
+  PROJECT: iam-lib
+
+tasks:
+  default:
+    cmds:
+      - task: help
+    silent: true
+
+  help:
+    cmds:
+      - echo {{.PROJECT}} " - " {{.GREETING}}
+      - echo "Tasks available install, bump-version, publish-package, publish"
+
+  install:
+    desc: "Install root dependencies"
+    cmds:
+      - pnpm install
+
+  bump-version:
+    desc: "Bump iam-lib version (patch, minor, or major)"
+    vars:
+      TYPE: '{{default "patch" .TYPE}}'
+    cmds:
+      - |
+        echo "🔍 Reading current version..."
+        cd ../iam-lib
+        CURRENT_VERSION=$(node -p "require('./package.json').version")
+        echo "Current version: $CURRENT_VERSION"
+
+        echo "🚀 Bumping {{.TYPE}} version..."
+        npm version {{.TYPE}} --no-git-tag-version > /dev/null
+
+        NEW_VERSION=$(node -p "require('./package.json').version")
+        echo "✅ iam-lib version updated: $CURRENT_VERSION → $NEW_VERSION"
+
+  publish-package:
+    desc: "Publish iam-lib to npm registry"
+    cmds:
+      - |
+        echo "Publishing iam-lib"
+        (cd ../iam-lib && npm publish)
+
+  publish:
+    desc: "Bump iam-lib version and publish to npm registry"
+    vars:
+      TYPE: '{{default "patch" .TYPE}}'
+    cmds:
+      - task: bump-version
+        vars:
+          TYPE: "{{.TYPE}}"
+      - task: publish-package

@@ -10,14 +10,12 @@ on:
 
 jobs:
   ci:
-    uses: hyzco/workflow-templates/.github/workflows/library-ci.yml@main
+    uses: ./ci-main.yml
     with:
       package-scope: "hyzco"
-      config-path: .github/labeler.yml
-    secrets:
-      personal_access_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-permissions:
-  contents: read
-  packages: write
+    # secrets:
+    # personal_access_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+    # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+# permissions:
+# contents: read
+# packages: write

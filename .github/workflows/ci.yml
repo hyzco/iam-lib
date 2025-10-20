@@ -1,19 +1,18 @@
 name: CI Trigger
 
 on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  release:
+    types: [published]
+
   workflow_call:
     inputs:
       config-path:
         required: true
         type: string
-
-    push:
-      branches: [main, develop]
-    pull_request:
-      branches: [main, develop]
-    release:
-      types: [published]
-
 jobs:
   ci:
     uses: ./.github/workflows/ci-main.yml

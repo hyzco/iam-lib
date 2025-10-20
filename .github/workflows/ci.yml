@@ -26,7 +26,6 @@ jobs:
         run: |
           cp .npmrc_example .npmrc
           sed -i 's/${GITHUB_TOKEN}/${{secrets.GITHUB_TOKEN}}/g' .npmrc
-          sed -i '/^//registry.jsr.io/:_authToken=/d' .npmrc
 
       - name: Install pnpm and task
         run: |

@@ -5,112 +5,12 @@ on:
     branches: [main, develop]
   pull_request:
     branches: [main, develop]
-  workflow_dispatch:
   release:
     types: [published]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "lts/*"
-          cache: "pnpm"
-
-      - name: Copy .npmrc_example to .npmrc
-        run: |
-          cp .npmrc_example .npmrc
-          sed -i 's/${GITHUB_TOKEN}/${{ secrets.GITHUB_TOKEN }}/g' .npmrc
-
-      - name: Install tools
-        run: npm install -g pnpm @go-task/cli
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Lint & format
-        run: |
-          task lint || echo "No lint task defined"
-          task format || echo "No format task defined"
-
-      - name: Build
-        run: task build
-
-      - name: Run tests
-        run: pnpm test -- --ci
-
-      - name: Test coverage
-        run: pnpm test:coverage -- --ci
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CI: true
-
-      - name: Upload coverage
-        uses: codecov/codecov-action@v3
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-
-  security:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "lts/*"
-
-      - name: Install pnpm and audit tools
-        run: npm install -g pnpm audit-ci
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Run dependency audits
-        run: |
-          echo "Running pnpm and npm audits..."
-          pnpm audit || true
-          npm audit || true
-
-      - name: Run audit-ci for stricter check
-        run: audit-ci --low
-
-      - name: Security lint check
-        run: npx eslint --ext .js,.ts --plugin security . || true
-
-  publish:
-    needs: [build, security]
-    runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/tags/') || github.event_name == 'release'
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "lts/*"
-          registry-url: https://npm.pkg.github.com
-          scope: "@hyzco"
-
-      - name: Copy .npmrc_example to .npmrc
-        run: |
-          cp .npmrc_example .npmrc
-          sed -i 's/${GITHUB_TOKEN}/${{ secrets.GITHUB_TOKEN }}/g' .npmrc
-
-      - name: Install pnpm
-        run: npm install -g pnpm
-
-      - name: Install dependencies & build
-        run: |
-          pnpm install --frozen-lockfile
-          task build
-
-      - name: Publish package to GitHub Packages
-        run: pnpm publish --no-git-checks
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  ci:
+    uses: hyzco/.github/.github/workflows/library-ci.yml@main
+    with:
+      package-scope: "@hyzco"
+      publish-registry: "https://npm.pkg.github.com"

@@ -10,7 +10,7 @@ on:
 
 jobs:
   ci:
-    uses: ./.github/workflows/library-ci.yml
+    uses: ./.github/workflows/ci-main.yml
     with:
       package-scope: "hyzco"
     secrets:

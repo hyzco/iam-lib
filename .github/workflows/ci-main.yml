@@ -30,7 +30,7 @@ jobs:
       - uses: actions/labeler@v6
         with:
           repo-token: ${{ secrets.token }}
-          configuration-path: ".github/workflows/config.yml" # <-- required input
+          # configuration-path: ".github/workflows/config.yml" # <-- required input
 
   build:
     runs-on: ubuntu-latest

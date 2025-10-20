@@ -25,6 +25,11 @@ tasks:
     cmds:
       - pnpm build
 
+  unit-tests:
+    desc: "Run unit tests"
+    cmds:
+      - pnpm test:coverage
+
   bump-version:
     desc: "Bump iam-lib version (patch, minor, or major)"
     vars:
@@ -78,6 +83,7 @@ tasks:
     vars:
       TYPE: '{{default "patch" .TYPE}}'
     cmds:
+      - task: unit-tests
       - task: bump-version
         vars:
           TYPE: "{{.TYPE}}"

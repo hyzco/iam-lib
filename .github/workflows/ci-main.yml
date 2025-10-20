@@ -45,8 +45,6 @@ jobs:
 
       - name: Install pnpm and Task CLI
         run: npm install -g pnpm @go-task/cli
-        with:
-          cache: "pnpm"
 
       - name: Prepare .npmrc
         run: |

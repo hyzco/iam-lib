@@ -13,6 +13,8 @@ jobs:
     uses: hyzco/workflow-templates/.github/workflows/library-ci.yml@main
     secrets:
       REPO_ACCESS_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     with:
       package-scope: "hyzco"
       publish-registry: "https://npm.pkg.github.com"
+      permissions: '{"contents":"read","packages":"write"}'

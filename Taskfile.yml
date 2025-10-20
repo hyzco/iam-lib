@@ -72,3 +72,20 @@ tasks:
         vars:
           TYPE: "{{.TYPE}}"
       - task: publish-package
+
+  commit-publish:
+    desc: "Commit version bump and publish iam-lib to npm registry"
+    vars:
+      TYPE: '{{default "patch" .TYPE}}'
+    cmds:
+      - task: bump-version
+        vars:
+          TYPE: "{{.TYPE}}"
+      - |
+        echo "Committing version bump..."
+        cd ../iam-lib
+        git add package.json
+        NEW_VERSION=$(node -p "require('./package.json').version")
+        git commit -m "chore: Bump version to $NEW_VERSION"
+        echo "✅ Version bump committed."
+      - task: publish-package

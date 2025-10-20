@@ -15,6 +15,12 @@ export interface IamHandlers {
     updateProfile: (req: any, res: any, next: any) => Promise<any>;
     deleteProfile: (req: any, res: any, next: any) => Promise<any>;
     createProfile: (req: any, res: any, next: any) => Promise<any>;
-
+  }
+  tokenService: {
+    signRefreshToken: () => any;
+    verifyRefreshToken: () => any;
+    verifyAccessToken: () => any;
+    signAccessToken: () => any;
+    getArgs: () => any;
   }
 }

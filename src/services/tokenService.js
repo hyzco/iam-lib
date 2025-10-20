@@ -40,7 +40,6 @@ export default function createTokenService({
       new Promise((res, rej) =>
         jwt.verify(token, verifyKey, { algorithms: [algorithm] }, (e, p) => (e ? rej(e) : res(p)))
       ),
-
     getArgs: () => ({
       key: verifyKey,
       algorithm

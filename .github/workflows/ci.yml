@@ -80,6 +80,9 @@ jobs:
       - name: Run audit-ci for stricter check
         run: audit-ci --low
 
+      - name: Security lint check
+        run: npx eslint --ext .js,.ts --plugin security . || true
+
   publish:
     needs: [build, security]
     runs-on: ubuntu-latest

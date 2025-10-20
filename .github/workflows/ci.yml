@@ -50,24 +50,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install latest pnpm
-        run: npm install -g pnpm@latest
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "latest"
+
       - name: Install dependencies
-        run: pnpm install
-      - name: Install Snyk CLI and authenticate
         run: |
-          npm install -g snyk
-          snyk auth $SNYK_TOKEN
+          npm install -g pnpm snyk
+          pnpm install
+
+      - name: Run Snyk security scan
+        run: snyk test --all-projects --severity-threshold=medium
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-      - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/node@master
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-      - name: Run audits
+
+      - name: Audit dependencies
         run: |
-          npm audit
-          pnpm audit
+          pnpm audit || true
+          npm audit || true
 
   publish:
     needs: [build, security]

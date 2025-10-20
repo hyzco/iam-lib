@@ -10,7 +10,7 @@ on:
 
 jobs:
   ci:
-    uses: ./ci-main.yml
+    uses: ./ci-main.yml@latest
     with:
       package-scope: "hyzco"
     # secrets:

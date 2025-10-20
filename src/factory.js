@@ -97,6 +97,7 @@ export function createIamHandlers({
       deleteUser: userRepo.delete,
       logger
     }),
+    tokenService,
     verifyAccessToken,              // for tokenService-style verification
     accessTokenMiddleware: accessToken, // for route protection
     issueServiceToken,

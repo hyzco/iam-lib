@@ -1,0 +1,19 @@
+name: CI Trigger
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  release:
+    types: [published]
+
+jobs:
+  ci:
+    uses: ./.github/workflows/ci-main.yml
+    with:
+      package-scope: "hyzco"
+      config-path: ".github/workflows/config.yml" # <-- required input
+    secrets:
+      personal_access_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+      token: ${{ secrets.GITHUB_TOKEN }} # <-- required secret

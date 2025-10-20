@@ -25,6 +25,11 @@ tasks:
     cmds:
       - pnpm build
 
+  unit-tests:
+    desc: "Run unit tests"
+    cmds:
+      - pnpm test:coverage
+
   bump-version:
     desc: "Bump iam-lib version (patch, minor, or major)"
     vars:
@@ -42,6 +47,11 @@ tasks:
         NEW_VERSION=$(node -p "require('./package.json').version")
         echo "✅ iam-lib version updated: $CURRENT_VERSION → $NEW_VERSION"
 
+        echo "📦 Committing version update..."
+        git add package.json
+        git commit -m "chore: bump version to v$NEW_VERSION"
+        echo "✅ Version update committed"
+
   revert-version:
     desc: "Revert iam-lib version to previous (before last bump)"
     cmds:
@@ -56,18 +66,24 @@ tasks:
         NEW_VERSION=$(node -p "require('./package.json').version")
         echo "✅ iam-lib version reverted: $CURRENT_VERSION → $NEW_VERSION"
 
+        echo "📦 Committing version downgrade..."
+        git add package.json
+        git commit -m "chore: bump version to v$NEW_VERSION"
+        echo "✅ Version downgrade committed"
+
   publish-package:
     desc: "Publish iam-lib to npm registry"
     cmds:
       - |
         echo "Publishing iam-lib"
-        (cd ../iam-lib && npm publish)
+        (cd ../iam-lib && npm publish --no-git-checks)
 
   publish:
     desc: "Bump iam-lib version and publish to npm registry"
     vars:
       TYPE: '{{default "patch" .TYPE}}'
     cmds:
+      - task: unit-tests
       - task: bump-version
         vars:
           TYPE: "{{.TYPE}}"

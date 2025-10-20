@@ -54,8 +54,12 @@ jobs:
         run: npm install -g pnpm@latest
       - name: Install dependencies
         run: pnpm install
-      - name: Snyk auth
-        run: snyk auth
+      - name: Install Snyk CLI and authenticate
+        run: |
+          npm install -g snyk
+          snyk auth $SNYK_TOKEN
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/node@master
         env:

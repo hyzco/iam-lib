@@ -64,8 +64,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      - name: Install latest pnpm
+        run: npm install -g pnpm@latest
+
       - name: Install dependencies
-        run: npm install
+        run: pnpm install
 
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/node@master
@@ -75,6 +78,8 @@ jobs:
       - name: Run npm audit
         run: npm audit
 
+      - name: Run pnpm audit
+        run: pnpm audit
   publish:
     needs: [build, security]
     runs-on: ubuntu-latest
@@ -88,7 +93,7 @@ jobs:
         with:
           node-version: latest
           registry-url: https://npm.pkg.github.com
-          scope: "@technoxcloud"
+          scope: "@hyzco"
 
       - name: Copy .npmrc_example to .npmrc
         run: |

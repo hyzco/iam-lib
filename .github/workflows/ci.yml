@@ -8,16 +8,12 @@ on:
   release:
     types: [published]
 
-  workflow_call:
-    inputs:
-      config-path:
-        required: true
-        type: string
 jobs:
   ci:
     uses: ./.github/workflows/ci-main.yml
     with:
       package-scope: "hyzco"
+      config-path: ".github/workflows/config.yml" # <-- required input
     secrets:
       personal_access_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      token: ${{ secrets.GITHUB_TOKEN }} # <-- required secret

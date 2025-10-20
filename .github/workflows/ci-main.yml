@@ -30,7 +30,7 @@ jobs:
       - uses: actions/labeler@v6
         with:
           repo-token: ${{ secrets.token }}
-          configuration-path: ${{ inputs.config-path }}
+          configuration-path: ".github/workflows/config.yml" # <-- required input
 
   build:
     runs-on: ubuntu-latest
@@ -52,7 +52,7 @@ jobs:
           sed -i 's/${GITHUB_TOKEN}/${{ secrets.GITHUB_TOKEN }}/g' .npmrc
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
 
       - name: Lint & Format
         run: |

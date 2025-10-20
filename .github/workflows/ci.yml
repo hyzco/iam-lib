@@ -10,7 +10,7 @@ on:
 
 jobs:
   ci:
-    uses: hyzco/.github/.github/workflows/library-ci.yml@main
+    uses: hyzco/.github/.github/workflows/library-ci.yml
     with:
       package-scope: "hyzco"
       publish-registry: "https://npm.pkg.github.com"

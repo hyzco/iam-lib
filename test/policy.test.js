@@ -91,8 +91,8 @@ describe("captcha", () => {
   });
 
   test("hcaptcha success is true only for an explicit success flag", async () => {
-    const ok = async () => new Response(JSON.stringify({ success: true }), { status: 200 });
-    const no = async () => new Response(JSON.stringify({ success: false }), { status: 200 });
+    const ok = async () => new globalThis.Response(JSON.stringify({ success: true }), { status: 200 });
+    const no = async () => new globalThis.Response(JSON.stringify({ success: false }), { status: 200 });
     assert.equal(await verifyHcaptchaToken("t", undefined, { secret: "s", fetchImpl: ok }), true);
     assert.equal(await verifyHcaptchaToken("t", undefined, { secret: "s", fetchImpl: no }), false);
   });

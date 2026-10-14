@@ -1,7 +1,7 @@
 {
   "name": "@hyzco/iam-lib",
-  "version": "0.0.7",
-  "description": "Generic iam library for authentication and authorization for TheyCloud.",
+  "version": "2.0.0",
+  "description": "Authentication, token, session and role-based authorization building blocks for Express applications.",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
   },
@@ -10,22 +10,60 @@
     "url": "git+https://github.com/hyzco/iam-lib.git"
   },
   "author": "Hasan Ali Yuzgec",
-  "license": "ISC",
+  "license": "MIT",
   "type": "module",
-  "main": "dist/esm/index.js",
+  "main": "index.js",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "default": "./index.js"
+    },
+    "./src/*": "./src/*"
+  },
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "src/",
+    "README.md",
+    "docs/",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
-    "build": "rm -rf dist && mkdir -p dist/esm && cp -R src/* dist/esm/ || true",
-    "prepare": "pnpm run build",
-    "prepublishOnly": "pnpm run build"
+    "test": "node --test \"test/**/*.test.js\"",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
   },
   "keywords": [
     "iam",
     "authentication",
-    "authorization"
+    "authorization",
+    "rbac",
+    "jwt",
+    "express"
   ],
-  "types": "./index.d.ts",
-  "files": [
-    "dist",
-    "index.d.ts"
-  ]
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "express-rate-limit": "^7.4.0",
+    "http-errors": "^2.0.0",
+    "joi": "^17.13.3",
+    "jsonwebtoken": "^9.0.2"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "express": "^4.21.2",
+    "knex": "^3.3.0",
+    "typescript": "^5.6.3"
+  },
+  "peerDependencies": {
+    "express": ">=4.18.0"
+  },
+  "peerDependenciesMeta": {
+    "express": {
+      "optional": true
+    }
+  }
 }

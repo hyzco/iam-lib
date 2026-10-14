@@ -1,4 +1,4 @@
-dist
-pnpm-lock.yaml
-node_modules
-.npmrc
+node_modules/
+.env
+coverage/
+*.log
